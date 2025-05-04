@@ -1,11 +1,13 @@
-import { HStack, Image, List, ListItem, Text } from "@chakra-ui/react";
+import { Button, HStack, Image, List, ListItem } from "@chakra-ui/react";
 import useGenre from "../hooks/useGenre";
 import getCroppedImageUrl from "../services/image-url";
 import GenreListSkeleton from "./GenreListSkeleton";
 
 const GenreList = () => {
-  const { data, isLoading } = useGenre();
+  const { data, isLoading, error } = useGenre();
   const skeletons = Array(25).fill(0);
+
+  if (error) return null;
 
   return (
     <List>
@@ -20,7 +22,9 @@ const GenreList = () => {
               borderRadius={8}
               src={getCroppedImageUrl(genre.image_background)}
             />
-            <Text fontSize="lg">{genre.name}</Text>
+            <Button variant="link" fontSize="lg">
+              {genre.name}
+            </Button>
           </HStack>
         </ListItem>
       ))}
