@@ -3,18 +3,24 @@ import { HStack, Image, Show } from "@chakra-ui/react";
 import logo from "../assets/logo.webp";
 import ColorModeSwitch from "./ColorModeSwitch";
 import SearchInput from "./SearchInput";
-import HamburgerIcon from "./HamburgerIcon";
+import GenreDrawerMenu from "./GenreDrawerMenu";
+import { Genre } from "../hooks/useGenres";
 
 interface Props {
   onSearch: (searchText: string) => void;
+  selectedGenre: Genre | null;
+  onSelectGenre: (genre: Genre) => void;
 }
 
-const NavBar = ({ onSearch }: Props) => {
+const NavBar = ({ onSearch, onSelectGenre, selectedGenre }: Props) => {
   return (
     <div>
       <HStack padding="10px">
         <Show below="lg">
-          <HamburgerIcon />
+          <GenreDrawerMenu
+            onSelectGenre={onSelectGenre}
+            selectedGenre={selectedGenre}
+          />
         </Show>
         <Show above="lg">
           <Image src={logo} boxSize="60px" />

@@ -1,3 +1,5 @@
+import React from "react";
+
 import {
   Button,
   HStack,
@@ -7,8 +9,6 @@ import {
   ListItem,
   useDisclosure,
 } from "@chakra-ui/react";
-import React from "react";
-import { FaBars } from "react-icons/fa";
 import {
   Drawer,
   DrawerBody,
@@ -17,25 +17,31 @@ import {
   DrawerContent,
   DrawerCloseButton,
 } from "@chakra-ui/react";
-import useGenre from "../hooks/useGenres";
-import getCroppedImageUrl from "../services/image-url";
-import GenreListSkeleton from "./GenreListSkeleton";
+import { FaBars } from "react-icons/fa";
 
-const HamburgerIcon = () => {
+import useGenre, { Genre } from "../hooks/useGenres";
+import getCroppedImageUrl from "../services/image-url";
+
+interface Props {
+  onSelectGenre: (genre: Genre) => void;
+  selectedGenre: Genre | null;
+}
+
+const GenreDrawerMenu = ({ onSelectGenre, selectedGenre }: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = React.useRef<HTMLButtonElement>(null);
-  const { data, isLoading, error } = useGenre();
-  const skeletons = Array.from({ length: 25 }, (_, i) => i + 1);
+  const { data, error } = useGenre();
 
   if (error) return null;
 
   return (
     <>
       <IconButton
-        aria-label="Search"
-        icon={<FaBars size="60px" />}
+        aria-label="open menu"
+        icon={<FaBars size="24px" />}
         ref={btnRef}
         onClick={onOpen}
+        variant="ghost"
       />
       <Drawer
         isOpen={isOpen}
@@ -49,36 +55,33 @@ const HamburgerIcon = () => {
           <DrawerHeader>Generes</DrawerHeader>
 
           <DrawerBody>
-            {data.map((genre) => (
-              <List>
-                {isLoading &&
-                  skeletons.map((_, index) => (
-                    <GenreListSkeleton key={index} />
-                  ))}
-                <ListItem key={genre.id} paddingY="5px">
+            <List spacing={3}>
+              {data.map((genre) => (
+                <ListItem key={genre.id}>
                   <HStack>
                     <Image
                       boxSize="32px"
                       borderRadius={8}
                       src={getCroppedImageUrl(genre.image_background)}
                       objectFit="cover"
+                      alt={genre.name}
                     />
                     <Button
                       whiteSpace="normal"
                       textAlign="left"
-                      // fontWeight={
-                      //   genre.id === selectedGenre?.id ? "bold" : "normal"
-                      // }
-                      // onClick={() => onSelectGenre(genre)}
                       variant="link"
                       fontSize="lg"
+                      fontWeight={
+                        genre.id === selectedGenre?.id ? "bold" : "normal"
+                      }
+                      onClick={() => onSelectGenre(genre)}
                     >
                       {genre.name}
                     </Button>
                   </HStack>
                 </ListItem>
-              </List>
-            ))}
+              ))}
+            </List>
           </DrawerBody>
         </DrawerContent>
       </Drawer>
@@ -86,4 +89,4 @@ const HamburgerIcon = () => {
   );
 };
 
-export default HamburgerIcon;
+export default GenreDrawerMenu;
