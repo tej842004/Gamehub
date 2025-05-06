@@ -13,7 +13,9 @@ const NavBar = ({ onSearch }: Props) => {
   return (
     <div>
       <HStack padding="10px">
-        <HamburgerIcon />
+        <Show below="lg">
+          <HamburgerIcon />
+        </Show>
         <Show above="lg">
           <Image src={logo} boxSize="60px" />
         </Show>
