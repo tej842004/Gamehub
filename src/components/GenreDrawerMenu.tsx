@@ -54,7 +54,7 @@ const GenreDrawerMenu = ({ onSelectGenre, selectedGenre }: Props) => {
         <DrawerOverlay />
         <DrawerContent maxW="200px">
           <DrawerCloseButton />
-          <DrawerHeader>Generes</DrawerHeader>
+          <DrawerHeader>Genres</DrawerHeader>
 
           <DrawerBody>
             {isLoading && (
