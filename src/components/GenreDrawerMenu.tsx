@@ -1,12 +1,14 @@
 import React from "react";
 
 import {
+  Box,
   Button,
   HStack,
   IconButton,
   Image,
   List,
   ListItem,
+  Spinner,
   useDisclosure,
 } from "@chakra-ui/react";
 import {
@@ -30,7 +32,7 @@ interface Props {
 const GenreDrawerMenu = ({ onSelectGenre, selectedGenre }: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = React.useRef<HTMLButtonElement>(null);
-  const { data, error } = useGenre();
+  const { data, error, isLoading } = useGenre();
 
   if (error) return null;
 
@@ -55,6 +57,11 @@ const GenreDrawerMenu = ({ onSelectGenre, selectedGenre }: Props) => {
           <DrawerHeader>Generes</DrawerHeader>
 
           <DrawerBody>
+            {isLoading && (
+              <Box display="flex" justifyContent="center" height="100%">
+                <Spinner />
+              </Box>
+            )}
             <List spacing={3}>
               {data.map((genre) => (
                 <ListItem key={genre.id}>
