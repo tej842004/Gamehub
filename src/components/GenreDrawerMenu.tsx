@@ -50,7 +50,7 @@ const GenreDrawerMenu = ({ onSelectGenre, selectedGenre }: Props) => {
         finalFocusRef={btnRef}
       >
         <DrawerOverlay />
-        <DrawerContent>
+        <DrawerContent maxW="250px">
           <DrawerCloseButton />
           <DrawerHeader>Generes</DrawerHeader>
 
