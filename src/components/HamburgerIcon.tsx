@@ -23,7 +23,7 @@ import GenreListSkeleton from "./GenreListSkeleton";
 
 const HamburgerIcon = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const btnRef = React.useRef();
+  const btnRef = React.useRef(null);
   const { data, isLoading, error } = useGenre();
   const skeletons = Array.from({ length: 25 }, (_, i) => i + 1);
 
