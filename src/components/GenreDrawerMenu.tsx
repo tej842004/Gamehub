@@ -21,7 +21,7 @@ import {
 } from "@chakra-ui/react";
 import { FaBars } from "react-icons/fa";
 
-import useGenre, { Genre } from "../hooks/useGenres";
+import useGenres, { Genre } from "../hooks/useGenres";
 import getCroppedImageUrl from "../services/image-url";
 
 interface Props {
@@ -32,7 +32,7 @@ interface Props {
 const GenreDrawerMenu = ({ onSelectGenre, selectedGenre }: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = React.useRef<HTMLButtonElement>(null);
-  const { data, error, isLoading } = useGenre();
+  const { data, error, isLoading } = useGenres();
 
   if (error) return null;
 
