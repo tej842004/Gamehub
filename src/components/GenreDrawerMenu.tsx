@@ -3,6 +3,12 @@ import React from "react";
 import {
   Box,
   Button,
+  Drawer,
+  DrawerBody,
+  DrawerCloseButton,
+  DrawerContent,
+  DrawerHeader,
+  DrawerOverlay,
   HStack,
   IconButton,
   Image,
@@ -11,14 +17,6 @@ import {
   Spinner,
   useDisclosure,
 } from "@chakra-ui/react";
-import {
-  Drawer,
-  DrawerBody,
-  DrawerHeader,
-  DrawerOverlay,
-  DrawerContent,
-  DrawerCloseButton,
-} from "@chakra-ui/react";
 import { FaBars } from "react-icons/fa";
 
 import useGenres, { Genre } from "../hooks/useGenres";
@@ -26,13 +24,16 @@ import getCroppedImageUrl from "../services/image-url";
 
 interface Props {
   onSelectGenre: (genre: Genre) => void;
-  selectedGenre: Genre | null;
+  selectedGenreId?: number;
 }
 
-const GenreDrawerMenu = ({ onSelectGenre, selectedGenre }: Props) => {
+const GenreDrawerMenu = ({ onSelectGenre, selectedGenreId }: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = React.useRef<HTMLButtonElement>(null);
   const { data, error, isLoading } = useGenres();
+
+  const { data: genres } = useGenres();
+  const selectedGenre = genres.results.find((g) => g.id === selectedGenreId);
 
   if (error) return null;
 
