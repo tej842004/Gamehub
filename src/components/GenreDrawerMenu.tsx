@@ -19,18 +19,17 @@ import {
 } from "@chakra-ui/react";
 import { FaBars } from "react-icons/fa";
 
-import useGenres, { Genre } from "../hooks/useGenres";
+import useGenres from "../hooks/useGenres";
 import getCroppedImageUrl from "../services/image-url";
+import useGameQueryStore from "../store";
 
-interface Props {
-  onSelectGenre: (genre: Genre) => void;
-  selectedGenreId?: number;
-}
-
-const GenreDrawerMenu = ({ onSelectGenre, selectedGenreId }: Props) => {
+const GenreDrawerMenu = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = React.useRef<HTMLButtonElement>(null);
   const { data, error, isLoading } = useGenres();
+
+  const selectedGenreId = useGameQueryStore((s) => s.gameQuery.genreId);
+  const setSelectedGenreId = useGameQueryStore((s) => s.setGenreId);
 
   const { data: genres } = useGenres();
   const selectedGenre = genres.results.find((g) => g.id === selectedGenreId);
@@ -82,7 +81,7 @@ const GenreDrawerMenu = ({ onSelectGenre, selectedGenreId }: Props) => {
                       fontWeight={
                         genre.id === selectedGenre?.id ? "bold" : "normal"
                       }
-                      onClick={() => onSelectGenre(genre)}
+                      onClick={() => setSelectedGenreId(genre.id)}
                     >
                       {genre.name}
                     </Button>
