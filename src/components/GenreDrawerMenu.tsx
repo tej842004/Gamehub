@@ -22,6 +22,7 @@ import { FaBars } from "react-icons/fa";
 import useGenres from "../hooks/useGenres";
 import getCroppedImageUrl from "../services/image-url";
 import useGameQueryStore from "../store";
+import { useNavigate } from "react-router-dom";
 
 const GenreDrawerMenu = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -33,6 +34,8 @@ const GenreDrawerMenu = () => {
 
   const { data: genres } = useGenres();
   const selectedGenre = genres.results.find((g) => g.id === selectedGenreId);
+
+  const navigate = useNavigate();
 
   if (error) return null;
 
@@ -81,7 +84,10 @@ const GenreDrawerMenu = () => {
                       fontWeight={
                         genre.id === selectedGenre?.id ? "bold" : "normal"
                       }
-                      onClick={() => setSelectedGenreId(genre.id)}
+                      onClick={() => {
+                        setSelectedGenreId(genre.id);
+                        navigate("/");
+                      }}
                     >
                       {genre.name}
                     </Button>
